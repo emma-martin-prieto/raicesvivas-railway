@@ -1,6 +1,6 @@
 <?php
 // Helpers
-
+$actividades = $actividades ?? [];
 function badgeTipo(string $tipo): string {
     return match($tipo) {
         'taller'      => '<span class="badge bg-naranja-rv position-absolute top-0 start-0 m-3">Taller</span>',
@@ -14,7 +14,7 @@ function badgeTipo(string $tipo): string {
 function imagenActividad(object $act): string {
     $mapa = [
         'Cocina de la Sierra'                          => 'cocina-tipica.jpg',
-        'Cestos de Mimbre'                             => 'mimbre.JPG',
+        'Cestos de Mimbre'                             => 'mimbre.jpg',
         'Pesca Tradicional'                            => 'cultivo-pesca.jpg',
         'Cultivo Tradicional'                          => 'cultivo.jpg',
         'Juegos Tradicionales'                         => 'juegos-tradicionales.jpg',
@@ -38,7 +38,7 @@ function imagenActividad(object $act): string {
 function imagenesDetalle(object $act): array {
     $mapa = [
         'Cocina de la Sierra'                          => ['postre.jpg', 'cocina-tipica.jpg'],
-        'Cestos de Mimbre'                             => ['mimbre.JPG', 'mimbre-grande.jpeg'],
+        'Cestos de Mimbre'                             => ['mimbre.jpg', 'mimbre-grande.jpeg'],
         'Pesca Tradicional'                            => ['cultivo-pesca.jpg', 'pesca-grande.jpg'],
         'Cultivo Tradicional'                          => ['cultivo.jpeg', 'cultivo.jpg'],
         'Juegos Tradicionales'                         => ['juegos-tradicionales2.jpeg', 'juegos-tradicionales.jpg'],
