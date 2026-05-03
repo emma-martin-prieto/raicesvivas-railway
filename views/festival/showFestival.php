@@ -77,7 +77,7 @@ $base = Parameters::$BASE_URL;
                             <div id="slideNavalperal" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3500">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active"><img src="<?= $base ?>assets/img/navalperal.jpg" class="d-block w-100" alt="Navalperal 1"></div>
-                                    <div class="carousel-item"><img src="<?= $base ?>assets/img/navalperal2.jpg" class="d-block w-100" alt="Navalperal 2"></div>
+                                    <div class="carousel-item"><img src="<?= $base ?>assets/img/navalperal4.jpg" class="d-block w-100" alt="Navalperal 4"></div>
                                     <div class="carousel-item"><img src="<?= $base ?>assets/img/Navalperal3.jpg" class="d-block w-100" alt="Navalperal 3"></div>
                                 </div>
                             </div>
