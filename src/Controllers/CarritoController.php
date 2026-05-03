@@ -66,8 +66,9 @@ class CarritoController {
 
     /*Vacía el carrito entero.*/
     public function vaciar(): void {
-        unset($_SESSION['carrito']);
-        header('Location: ' . Parameters::$BASE_URL . 'index.php?controller=Actividad&action=showExperiencias');
-        exit();
+    unset($_SESSION['carrito']);
+
+    header('Location: ' . Parameters::$BASE_URL . 'index.php?controller=Inscripcion&action=showFormulario');
+    exit();
     }
 }

@@ -1,9 +1,14 @@
 <?php
 use RaicesVivas\Config\Parameters;
-$base = Parameters::$BASE_URL;
 
-$totalCarrito = count($actividadesCarrito ?? []);
-$precioTotal  = array_sum(array_map(fn($a) => $a->precio, $actividadesCarrito ?? []));
+$base = Parameters::$BASE_URL;
+$actividadesCarrito = $actividadesCarrito ?? [];
+$localidades = $localidades ?? [];
+$errores = $errores ?? [];
+$dataPOST = $dataPOST ?? [];
+
+$totalCarrito = count($actividadesCarrito);
+$precioTotal  = array_sum(array_map(fn($a) => $a->precio, $actividadesCarrito));
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -58,7 +63,7 @@ $precioTotal  = array_sum(array_map(fn($a) => $a->precio, $actividadesCarrito ??
                             <div class="text-center text-muted py-5 px-4">
                                 <i class="bi bi-bag fs-1 d-block mb-3 opacity-25"></i>
                                 <p class="small">Aún no has añadido ninguna actividad.</p>
-                                <a href="<?= $base ?>Actividad/showExperiencias"
+                                <a href="<?= $base ?>index.php?controller=Actividad&action=showExperiencias"
                                    class="btn btn-outline-verde-rv btn-sm rounded-pill px-4">
                                     Ver experiencias
                                 </a>
@@ -71,7 +76,7 @@ $precioTotal  = array_sum(array_map(fn($a) => $a->precio, $actividadesCarrito ??
                                         <p class="mb-0 fw-semibold small"><?= htmlspecialchars($act->nombre) ?></p>
                                         <span class="text-verde-rv fw-bold small"><?= number_format($act->precio, 2) ?> €</span>
                                     </div>
-                                    <a href="<?= $base ?>Carrito/eliminar?id=<?= $act->id ?>"
+                                    <a href="<?= $base ?>index.php?controller=Carrito&action=eliminar&id=<?= $act->id ?>"
                                        class="text-danger ms-2" title="Eliminar">
                                         <i class="bi bi-x-circle"></i>
                                     </a>
@@ -85,7 +90,7 @@ $precioTotal  = array_sum(array_map(fn($a) => $a->precio, $actividadesCarrito ??
                             </div>
 
                             <div class="px-4 pb-3">
-                                <a href="<?= $base ?>Carrito/vaciar"
+                                <a href="<?= $base ?>index.php?controller=Carrito&action=vaciar"
                                    class="btn btn-outline-danger btn-sm w-100 rounded-pill">
                                     <i class="bi bi-trash me-1"></i>Vaciar selección
                                 </a>
@@ -102,7 +107,7 @@ $precioTotal  = array_sum(array_map(fn($a) => $a->precio, $actividadesCarrito ??
                     <div class="card-body p-4 p-md-5">
 
                         <form id="form-inscripcion" method="POST"
-                              action="<?= $base ?>Inscripcion/procesar"
+                              action="<?= $base ?>index.php?controller=Inscripcion&action=procesarInscripcion"
                               class="needs-validation" novalidate>
 
                             <!-- 1. Datos personales -->
