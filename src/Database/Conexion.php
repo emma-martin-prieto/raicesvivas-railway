@@ -6,13 +6,14 @@ use RaicesVivas\Config\ConfigBD;
 class Conexion {
     public static function conectar(): ?\PDO {
         try {
-            $dsn = 'mysql:host=' . ConfigBD::$SERVER_NAME_BD
-                 . ';dbname='   . ConfigBD::$DB_NAME
-                 . ';port='     . ConfigBD::$SERVER_PORT_BD
-                 . ';charset='  . ConfigBD::$CHARSET;
+            $dsn = 'mysql:host=' . ConfigBD::host()
+                 . ';port=' . ConfigBD::port()
+                 . ';dbname=' . ConfigBD::db()
+                 . ';charset=utf8mb4';
 
-            $conn = new \PDO($dsn, ConfigBD::$USER_BD, ConfigBD::$PASSWORD_BD);
+            $conn = new \PDO($dsn, ConfigBD::user(), ConfigBD::pass());
             $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
             return $conn;
 
         } catch (\PDOException $e) {
