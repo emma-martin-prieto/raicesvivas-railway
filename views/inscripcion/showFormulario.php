@@ -107,7 +107,7 @@ $precioTotal  = array_sum(array_map(fn($a) => $a->precio, $actividadesCarrito));
                     <div class="card-body p-4 p-md-5">
 
                         <form id="form-inscripcion" method="POST"
-                              action="<?= $base ?>index.php?controller=Inscripcion&action=procesarInscripcion"
+                              action="<?= $base ?>index.php?controller=Inscripcion&action=procesar"
                               class="needs-validation" novalidate>
 
                             <!-- 1. Datos personales -->
