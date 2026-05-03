@@ -1,11 +1,15 @@
+<?php
+use RaicesVivas\Config\Parameters;
+$base = Parameters::$BASE_URL;
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - Página no encontrada | Raíces Vivas</title>
-    <link rel="stylesheet" href="/raicesvivas/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/raicesvivas/assets/style.css">
+    <link rel="stylesheet" href="<?= $base ?>assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= $base ?>assets/style.css">
 </head>
 <body class="error-bg">
     <div class="error-card">
@@ -17,7 +21,7 @@
             El sendero que buscas no existe en la Sierra de Gredos.<br>
             Puede que la ruta haya cambiado o nunca haya existido.
         </p>
-        <a href="/raicesvivas/" class="btn-volver">Volver al inicio</a>
+        <a href="<?= $base ?>index.php?controller=Index&action=showIndex" class="btn-volver">Volver al inicio</a>
     </div>
 </body>
 </html>

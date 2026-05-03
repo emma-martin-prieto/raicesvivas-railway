@@ -1,7 +1,12 @@
 <?php
 use RaicesVivas\Config\Parameters;
-$base     = Parameters::$BASE_URL;
-$esEditar = ($modo === 'editar' && $actividad !== null);
+$base          = Parameters::$BASE_URL;
+$modo          = $modo          ?? 'crear';
+$actividad     = $actividad     ?? null;
+$organizadores = $organizadores ?? [];
+$sesiones      = $sesiones      ?? [];
+$errores       = $errores       ?? [];
+$esEditar      = ($modo === 'editar' && $actividad !== null);
 $titulo   = $esEditar ? 'Editar experiencia' : 'Nueva experiencia';
 $action   = $esEditar ? 'editar' : 'crear';
 
@@ -31,7 +36,7 @@ $sel = function(string $campo, string $valor) use ($v): string {
         Raíces Vivas
         <span class="admin-badge">Admin</span>
     </div>
-    <a href="<?= $base ?>Admin/showPanel"
+    <a href="<?= $base ?>index.php?controller=Admin&action=showPanel"
        class="btn btn-sm btn-outline-light rounded-pill px-3">
         <i class="bi bi-arrow-left me-1"></i>Volver al panel
     </a>
@@ -57,7 +62,7 @@ $sel = function(string $campo, string $valor) use ($v): string {
     </div>
     <?php endif; ?>
 
-    <form method="POST" action="<?= $base ?>Admin/<?= $action ?>" id="form-actividad">
+    <form method="POST" action="<?= $base ?>index.php?controller=Admin&action=<?= $action ?>" id="form-actividad">
 
         <?php if ($esEditar): ?>
         <input type="hidden" name="id" value="<?= (int)$v('id') ?>">
@@ -288,7 +293,7 @@ $sel = function(string $campo, string $valor) use ($v): string {
 
         <!-- ── BOTONES ── -->
         <div class="d-flex gap-3 justify-content-end pt-2 pb-4">
-            <a href="<?= $base ?>Admin/showPanel"
+            <a href="<?= $base ?>index.php?controller=Admin&action=showPanel"
                class="btn btn-outline-secondary rounded-pill px-4">
                 Cancelar
             </a>
