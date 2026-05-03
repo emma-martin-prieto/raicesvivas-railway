@@ -40,7 +40,7 @@ $base = Parameters::$BASE_URL;
         <div class="container hero-content text-center text-white">
             <h1 class="display-3 fw-bold mb-3">Tu próxima vida empieza aquí</h1>
             <p class="lead mb-4 fst-italic">"Vive el pueblo, no solo lo visites"</p>
-            <a href="<?= $base ?>Actividad/showExperiencias"
+            <a href="<?= $base ?>index.php?controller=Actividad&action=showExperiencias"
                class="btn btn-naranja btn-lg rounded-pill px-5 py-3">
                 Quiero participar
             </a>

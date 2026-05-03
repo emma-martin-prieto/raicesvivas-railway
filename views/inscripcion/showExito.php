@@ -1,6 +1,9 @@
 <?php
 use RaicesVivas\Config\Parameters;
+
 $base = Parameters::$BASE_URL;
+$nombre = $nombre ?? null;
+$codigo = $codigo ?? null;
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -39,11 +42,12 @@ $base = Parameters::$BASE_URL;
 
         <div class="d-flex gap-3 justify-content-center">
             <a href="<?= $base ?>index.php"
-               class="btn btn-naranja-rv rounded-pill px-5 py-3 fw-bold">
+            class="btn btn-naranja-rv rounded-pill px-5 py-3 fw-bold">
                 <i class="bi bi-house-fill me-2"></i>Volver al inicio
             </a>
-            <a href="<?= $base ?>Actividad/showExperiencias"
-               class="btn btn-outline-verde-rv rounded-pill px-5 py-3 fw-bold">
+
+            <a href="<?= $base ?>index.php?controller=Actividad&action=showExperiencias"
+            class="btn btn-outline-verde-rv rounded-pill px-5 py-3 fw-bold">
                 <i class="bi bi-compass me-2"></i>Ver más experiencias
             </a>
         </div>

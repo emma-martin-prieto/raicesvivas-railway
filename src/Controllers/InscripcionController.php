@@ -141,14 +141,14 @@ class InscripcionController {
         $_SESSION['inscripcion_codigo'] = $codigo;
         unset($_SESSION['carrito']);
 
-        header('Location: ' . Parameters::$BASE_URL . 'Inscripcion/showExito');
+        header('Location: ' . Parameters::$BASE_URL . 'index.php?controller=Inscripcion&action=showExito');
         exit();
     }
 
     /*Pantalla de éxito tras inscribirse.*/
     public function showExito(): void {
         if (empty($_SESSION['inscripcion_ok'])) {
-            header('Location: ' . Parameters::$BASE_URL);
+            header('Location: ' . Parameters::$BASE_URL . 'index.php?controller=Festival&action=showFestival');
             exit();
         }
 
@@ -187,7 +187,7 @@ class InscripcionController {
 
         // Si el código pertenece a un ADMIN, redirigir al panel de administración
         if (($resultado['rol'] ?? '') === 'ADMIN') {
-            echo json_encode(['redirect' => 'Admin/showLogin']);
+            echo json_encode(['redirect' => 'index.php?controller=Admin&action=showLogin']);
             exit();
         }
 

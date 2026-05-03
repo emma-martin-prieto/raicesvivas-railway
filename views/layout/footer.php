@@ -1,4 +1,5 @@
 <?php use RaicesVivas\Config\Parameters; $base = Parameters::$BASE_URL; ?>
+
 <footer class="footer-tablon py-5" id="AI">
     <div class="container">
         <div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-4 justify-content-center align-items-start">
@@ -18,10 +19,10 @@
                     <div class="chincheta verde"></div>
                     <span class="nota-categoria text-uppercase">Mapa del sitio</span>
                     <nav class="nav-vertical">
-                        <a href="<?= $base ?>">Inicio</a>
-                        <a href="<?= $base ?>festival.html">El Festival</a>
-                        <a href="<?= $base ?>Actividad/showExperiencias">Experiencias</a>
-                        <a href="<?= $base ?>Inscripcion/showFormulario">Inscripciones</a>
+                        <a href="<?= $base ?>index.php?controller=Index&action=showIndex">Inicio</a>
+                        <a href="<?= $base ?>index.php?controller=Festival&action=showFestival">El Festival</a>
+                        <a href="<?= $base ?>index.php?controller=Actividad&action=showExperiencias">Experiencias</a>
+                        <a href="<?= $base ?>index.php?controller=Inscripcion&action=showFormulario">Inscripciones</a>
                     </nav>
                 </div>
             </div>
@@ -62,11 +63,13 @@
                             <a href="https://maps.app.goo.gl/kdsCFnjYF3v8SdeM9"
                                class="small fw-bold text-decoration-none text-reset">Sierra de Gredos</a>
                         </p>
+
                         <p class="d-flex align-items-center mb-3">
                             <i class="bi bi-envelope-at-fill text-naranja-rv me-2"></i>
                             <a href="mailto:hola@raicesvivas.es"
                                class="small fw-bold text-decoration-none text-reset">hola@raicesvivas.es</a>
                         </p>
+
                         <p class="d-flex align-items-center">
                             <i class="bi bi-whatsapp text-naranja-rv me-2"></i>
                             <a href="https://wa.me/34920123456"

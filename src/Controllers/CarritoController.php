@@ -60,14 +60,14 @@ class CarritoController {
             );
         }
 
-        header('Location: ' . $_SERVER['HTTP_REFERER'] ?? 'Inscripcion/showFormulario');
+        header('Location: ' . $_SERVER['HTTP_REFERER'] ?? Parameters::$BASE_URL . 'index.php?controller=Inscripcion&action=showFormulario');
         exit();
     }
 
     /*Vacía el carrito entero.*/
     public function vaciar(): void {
         unset($_SESSION['carrito']);
-        header('Location: ' . Parameters::$BASE_URL . 'Actividad/showExperiencias');
+        header('Location: ' . Parameters::$BASE_URL . 'index.php?controller=Actividad&action=showExperiencias');
         exit();
     }
 }

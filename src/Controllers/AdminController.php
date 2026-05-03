@@ -2,9 +2,10 @@
 namespace RaicesVivas\Controllers;
 
 use RaicesVivas\Config\Parameters;
+use RaicesVivas\Controllers\ViewController;
+use RaicesVivas\Models\PersonaModel;
 use RaicesVivas\Models\AdminActividadModel;
 use RaicesVivas\Models\OrganizadorModel;
-use RaicesVivas\Models\PersonaModel;
 
 class AdminController {
 
@@ -22,7 +23,7 @@ class AdminController {
 
         if ($resultado && ($resultado['rol'] ?? '') === 'ADMIN') {
             $_SESSION['admin'] = true;
-            header('Location: ' . Parameters::$BASE_URL . 'Admin/showPanel');
+            header('Location: ' . Parameters::$BASE_URL . 'index.php?controller=Admin&action=showPanel');
             exit();
         }
 
@@ -35,7 +36,7 @@ class AdminController {
             echo json_encode(['error' => 'Código no válido o no encontrado.', 'codigo_buscado' => $codigo]);
         } else {
             $_SESSION['admin_login_error'] = 'Código incorrecto. Inténtalo de nuevo.';
-            header('Location: ' . Parameters::$BASE_URL . 'Admin/showLogin');
+            header('Location: ' . Parameters::$BASE_URL . 'index.php?controller=Admin&action=showLogin');
         }
         exit();
     }
@@ -179,7 +180,7 @@ class AdminController {
     /* Cierra la sesión de administrador. */
     public function logout(): void {
         unset($_SESSION['admin']);
-        header('Location: ' . Parameters::$BASE_URL);
+        header('Location: ' . Parameters::$BASE_URL . 'index.php?controller=Festival&action=showFestival');
         exit();
     }
 
@@ -187,13 +188,13 @@ class AdminController {
 
     private function requireAdmin(): void {
         if (empty($_SESSION['admin'])) {
-            header('Location: ' . Parameters::$BASE_URL . 'Admin/showLogin');
+            header('Location: ' . Parameters::$BASE_URL . 'index.php?controller=Admin&action=showLogin');
             exit();
         }
     }
 
     private function redirectPanel(): void {
-        header('Location: ' . Parameters::$BASE_URL . 'Admin/showPanel');
+        header('Location: ' . Parameters::$BASE_URL . 'index.php?controller=Admin&action=showPanel');
         exit();
     }
 

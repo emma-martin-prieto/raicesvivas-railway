@@ -315,7 +315,7 @@ function labelFiltro(string $tipo): string {
 
         <!-- Botón inscripción -->
         <div class="text-center mt-5 pt-4">
-            <a href="<?= $base ?>Inscripcion/showFormulario"
+            <a href="<?= $base ?>index.php?controller=Inscripcion&action=showFormulario"
                class="btn btn-verde-rv btn-lg rounded-pill px-5 py-3">
                 <i class="bi bi-check-circle-fill me-2"></i>Confirmar Selección e Inscribirse
             </a>
