@@ -587,6 +587,10 @@ header .d-flex a {
     background-color: #fdfaf5;
 }
 
+.fecha-input {
+    min-width: 0 !important; 
+}
+
 /* --- ESTILO DE INPUTS CON ICONO --- */
 .icon-input {
     background-color: #ffffff !important;
