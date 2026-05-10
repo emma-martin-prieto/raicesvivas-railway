@@ -530,3 +530,37 @@ document.addEventListener('DOMContentLoaded', function () {
         bloque.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
 }());
+
+// 10. PANEL ADMIN — Gestión de Organizadores
+// Solo lo imprescindible para organizadores
+document.addEventListener('DOMContentLoaded', function () {
+
+    const base = "<?= $base ?>";
+
+    // Editar Organizador
+    document.querySelectorAll('.btn-editar-org').forEach(btn => {
+        btn.addEventListener('click', function () {
+            document.getElementById('form-organizador').action = 
+                base + 'index.php?controller=Admin&action=editarOrganizador';
+
+            document.getElementById('modalOrgTitulo').lastChild.textContent = ' Editar organizador';
+            document.getElementById('org-btn-txt').textContent = 'Guardar cambios';
+
+            document.getElementById('org-id').value = this.dataset.id;
+            document.getElementById('org-nombre').value = this.dataset.nombre;
+            document.getElementById('org-tipo').value = this.dataset.tipo;
+
+            new bootstrap.Modal(document.getElementById('modalOrganizador')).show();
+        });
+    });
+
+    // Eliminar Organizador
+    document.querySelectorAll('.btn-eliminar-org').forEach(btn => {
+        btn.addEventListener('click', function () {
+            document.getElementById('modal-nombre-org').textContent = this.dataset.nombre;
+            document.getElementById('input-id-eliminar-org').value = this.dataset.id;
+            
+            new bootstrap.Modal(document.getElementById('modalEliminarOrg')).show();
+        });
+    });
+});
