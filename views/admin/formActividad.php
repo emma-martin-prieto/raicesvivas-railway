@@ -334,32 +334,5 @@ $sel = function(string $campo, string $valor) use ($v): string {
 
 <script src="<?= $base ?>assets/js/bootstrap.bundle.min.js"></script>
 <script src="<?= $base ?>assets/javascript.js"></script>
-
-<script>
-// Mostrar/ocultar motivo cancelación
-document.getElementById('estado').addEventListener('change', function () {
-    document.getElementById('bloque-motivo').style.display =
-        this.value === 'cancelada' ? '' : 'none';
-});
-
-// Añadir sesión
-document.getElementById('btn-add-sesion').addEventListener('click', function () {
-    const tpl  = document.getElementById('tpl-sesion');
-    const clone = tpl.content.cloneNode(true);
-    document.getElementById('lista-sesiones').appendChild(clone);
-    actualizarBotonesSesion();
-});
-
-// Eliminar sesión (delegado)
-document.getElementById('lista-sesiones').addEventListener('click', function (e) {
-    const btn = e.target.closest('.btn-eliminar-sesion');
-    if (!btn) return;
-    btn.closest('.sesion-row').remove();
-});
-
-function actualizarBotonesSesion() {
-    // nada extra por ahora
-}
-</script>
 </body>
 </html>
