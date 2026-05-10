@@ -290,8 +290,7 @@ function badgeTipoAdmin(string $tipo): string {
             <div class="modal-footer border-0 pt-3">
                 <button type="button" class="btn btn-outline-secondary rounded-pill px-4"
                         data-bs-dismiss="modal">Cancelar</button>
-                <form method="POST" action="<?= $base ?>Admin/eliminarOrganizador" id="form-eliminar-org">
-                    <input type="hidden" name="id" id="input-id-eliminar-org">
+                <form method="POST" action="<?= $base ?>index.php?controller=Admin&action=eliminarOrganizador" id="form-eliminar-org">                    <input type="hidden" name="id" id="input-id-eliminar-org">
                     <button type="submit" class="btn btn-danger rounded-pill px-4">
                         <i class="bi bi-trash3-fill me-1"></i>Sí, eliminar
                     </button>
