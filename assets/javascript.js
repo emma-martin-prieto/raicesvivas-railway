@@ -50,105 +50,104 @@ window.onload = function () {
   // 5. VALIDACIÓN VISUAL DEL FORMULARIO DE INSCRIPCIÓN
 
   const formulario = document.getElementById('form-inscripcion');
-  if (!formulario) return;
+  if (formulario) {
+        // Muestra un error rojo debajo del campo
+        function mostrarError(campo, mensaje) {
+            if (!campo) return;
 
-  // Muestra un error rojo debajo del campo
-  function mostrarError(campo, mensaje) {
-    if (!campo) return;
+            campo.classList.add('is-invalid-rv');
 
-    campo.classList.add('is-invalid-rv');
+            const contenedor = campo.closest('.input-group') || campo.closest('.col-md-4') || campo.parentElement;
 
-    const contenedor = campo.closest('.input-group') || campo.closest('.col-md-4') || campo.parentElement;
+            // Eliminar mensaje anterior si existía
+            const anterior = contenedor.parentElement
+            ? contenedor.parentElement.querySelector(`.error-rv[data-campo="${campo.id}"]`)
+            : null;
+            if (anterior) anterior.remove();
 
-    // Eliminar mensaje anterior si existía
-    const anterior = contenedor.parentElement
-      ? contenedor.parentElement.querySelector(`.error-rv[data-campo="${campo.id}"]`)
-      : null;
-    if (anterior) anterior.remove();
+            const msg = document.createElement('div');
+            msg.className   = 'error-rv';
+            msg.dataset.campo = campo.id;
+            msg.innerHTML   = `<i class="bi bi-exclamation-circle-fill me-1"></i>${mensaje}`;
+            contenedor.insertAdjacentElement('afterend', msg);
 
-    const msg = document.createElement('div');
-    msg.className   = 'error-rv';
-    msg.dataset.campo = campo.id;
-    msg.innerHTML   = `<i class="bi bi-exclamation-circle-fill me-1"></i>${mensaje}`;
-    contenedor.insertAdjacentElement('afterend', msg);
+            // Animación shake
+            campo.classList.add('shake-rv');
+            campo.addEventListener('animationend', () => campo.classList.remove('shake-rv'), { once: true });
+        }
 
-    // Animación shake
-    campo.classList.add('shake-rv');
-    campo.addEventListener('animationend', () => campo.classList.remove('shake-rv'), { once: true });
-  }
+        // Limpia el error de un campo concreto
+        function limpiarError(campo) {
+            if (!campo) return;
+            campo.classList.remove('is-invalid-rv');
+            const msg = formulario.querySelector(`.error-rv[data-campo="${campo.id}"]`);
+            if (msg) msg.remove();
+        }
 
-  // Limpia el error de un campo concreto
-  function limpiarError(campo) {
-    if (!campo) return;
-    campo.classList.remove('is-invalid-rv');
-    const msg = formulario.querySelector(`.error-rv[data-campo="${campo.id}"]`);
-    if (msg) msg.remove();
-  }
+        // Limpia todos los errores
+        function limpiarTodos() {
+            formulario.querySelectorAll('.is-invalid-rv').forEach(el => el.classList.remove('is-invalid-rv'));
+            formulario.querySelectorAll('.error-rv').forEach(el => el.remove());
+        }
 
-  // Limpia todos los errores
-  function limpiarTodos() {
-    formulario.querySelectorAll('.is-invalid-rv').forEach(el => el.classList.remove('is-invalid-rv'));
-    formulario.querySelectorAll('.error-rv').forEach(el => el.remove());
-  }
+        // Limpiar error al modificar cada campo
+        formulario.querySelectorAll('input, select, textarea').forEach(campo => {
+            campo.addEventListener('input',  () => limpiarError(campo));
+            campo.addEventListener('change', () => limpiarError(campo));
+        });
 
-  // Limpiar error al modificar cada campo
-  formulario.querySelectorAll('input, select, textarea').forEach(campo => {
-    campo.addEventListener('input',  () => limpiarError(campo));
-    campo.addEventListener('change', () => limpiarError(campo));
-  });
+        // Validación al enviar
+        formulario.addEventListener('submit', function (event) {
 
-  // Validación al enviar
-  formulario.addEventListener('submit', function (event) {
+            limpiarTodos();
 
-    limpiarTodos();
+            const nombre    = document.getElementById('nombre');
+            const apellido1 = document.getElementById('apellido1');
+            const email     = document.getElementById('email');
+            const fechaNac  = document.getElementById('fecha_nac');
+            const telefono  = document.getElementById('telefono');
+            const localidad = document.getElementById('id_localidad');
 
-    const nombre    = document.getElementById('nombre');
-    const apellido1 = document.getElementById('apellido1');
-    const email     = document.getElementById('email');
-    const fechaNac  = document.getElementById('fecha_nac');
-    const telefono  = document.getElementById('telefono');
-    const localidad = document.getElementById('id_localidad');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const tlfRegex   = /^[0-9]{9,11}$/;
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const tlfRegex   = /^[0-9]{9,11}$/;
+            let hayErrores            = false;
+            let primerCampoConError   = null;
 
-    let hayErrores            = false;
-    let primerCampoConError   = null;
+            function marcar(campo, msg) {
+            mostrarError(campo, msg);
+            hayErrores = true;
+            if (!primerCampoConError) primerCampoConError = campo;
+            }
 
-    function marcar(campo, msg) {
-      mostrarError(campo, msg);
-      hayErrores = true;
-      if (!primerCampoConError) primerCampoConError = campo;
+            if (!nombre || nombre.value.trim().length < 2)
+            marcar(nombre, "El nombre es obligatorio (mínimo 2 caracteres).");
+
+            if (!apellido1 || apellido1.value.trim().length < 2)
+            marcar(apellido1, "El primer apellido es obligatorio.");
+
+            if (!email || !emailRegex.test(email.value.trim()))
+            marcar(email, "Introduce un correo electrónico válido.");
+
+            if (!fechaNac || fechaNac.value === "")
+            marcar(fechaNac, "La fecha de nacimiento es obligatoria.");
+
+            if (telefono && telefono.value.trim() !== "" && !tlfRegex.test(telefono.value.replace(/\s/g, "")))
+            marcar(telefono, "El teléfono debe tener entre 9 y 11 dígitos.");
+
+            if (!localidad || localidad.value === "")
+            marcar(localidad, "Selecciona tu provincia.");
+
+            if (hayErrores) {
+            event.preventDefault();
+            if (primerCampoConError) {
+                primerCampoConError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                primerCampoConError.focus();
+            }
+            }
+            // Si no hay errores el formulario se envía al servidor PHP normalmente
+        });
     }
-
-    if (!nombre || nombre.value.trim().length < 2)
-      marcar(nombre, "El nombre es obligatorio (mínimo 2 caracteres).");
-
-    if (!apellido1 || apellido1.value.trim().length < 2)
-      marcar(apellido1, "El primer apellido es obligatorio.");
-
-    if (!email || !emailRegex.test(email.value.trim()))
-      marcar(email, "Introduce un correo electrónico válido.");
-
-    if (!fechaNac || fechaNac.value === "")
-      marcar(fechaNac, "La fecha de nacimiento es obligatoria.");
-
-    if (telefono && telefono.value.trim() !== "" && !tlfRegex.test(telefono.value.replace(/\s/g, "")))
-      marcar(telefono, "El teléfono debe tener entre 9 y 11 dígitos.");
-
-    if (!localidad || localidad.value === "")
-      marcar(localidad, "Selecciona tu provincia.");
-
-    if (hayErrores) {
-      event.preventDefault();
-      if (primerCampoConError) {
-        primerCampoConError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        primerCampoConError.focus();
-      }
-    }
-    // Si no hay errores el formulario se envía al servidor PHP normalmente
-  });
-
 };
 
 // 6. BUSCADOR DE INSCRIPCIÓN POR CÓDIGO RV

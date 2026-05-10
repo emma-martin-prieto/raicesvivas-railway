@@ -240,8 +240,7 @@ function badgeTipoAdmin(string $tipo): string {
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form method="POST" action="" id="form-organizador">
-                <input type="hidden" name="id" id="org-id">
+            <form method="POST" action="<?= $base ?>index.php?controller=Admin&action=crearOrganizador" id="form-organizador">                <input type="hidden" name="id" id="org-id">
                 <div class="modal-body px-4">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Nombre</label>
