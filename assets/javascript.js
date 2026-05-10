@@ -537,15 +537,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const base = "<?= $base ?>";
 
-    // Editar Organizador
+    // EDITAR ORGANIZADOR
     document.querySelectorAll('.btn-editar-org').forEach(btn => {
         btn.addEventListener('click', function () {
-            document.getElementById('form-organizador').action = 
-                base + 'index.php?controller=Admin&action=editarOrganizador';
 
-            document.getElementById('modalOrgTitulo').lastChild.textContent = ' Editar organizador';
+            const form = document.getElementById('form-organizador');
+            
+            // Usamos la misma base que ya tienes en el HTML
+            form.action = '<?= $base ?>index.php?controller=Admin&action=editarOrganizador';
+
+            // Cambiar título y texto del botón
+            const titulo = document.getElementById('modalOrgTitulo');
+            if (titulo) {
+                titulo.querySelector('i').className = 'bi bi-pencil-square me-2 text-verde-rv';
+                titulo.lastChild.textContent = ' Editar organizador';
+            }
+
             document.getElementById('org-btn-txt').textContent = 'Guardar cambios';
 
+            // Rellenar datos
             document.getElementById('org-id').value = this.dataset.id;
             document.getElementById('org-nombre').value = this.dataset.nombre;
             document.getElementById('org-tipo').value = this.dataset.tipo;
