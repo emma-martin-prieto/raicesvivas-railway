@@ -50,104 +50,105 @@ window.onload = function () {
   // 5. VALIDACIÓN VISUAL DEL FORMULARIO DE INSCRIPCIÓN
 
   const formulario = document.getElementById('form-inscripcion');
-  if (formulario) {
-        // Muestra un error rojo debajo del campo
-        function mostrarError(campo, mensaje) {
-            if (!campo) return;
+  if (!formulario) return;
 
-            campo.classList.add('is-invalid-rv');
+  // Muestra un error rojo debajo del campo
+  function mostrarError(campo, mensaje) {
+    if (!campo) return;
 
-            const contenedor = campo.closest('.input-group') || campo.closest('.col-md-4') || campo.parentElement;
+    campo.classList.add('is-invalid-rv');
 
-            // Eliminar mensaje anterior si existía
-            const anterior = contenedor.parentElement
-            ? contenedor.parentElement.querySelector(`.error-rv[data-campo="${campo.id}"]`)
-            : null;
-            if (anterior) anterior.remove();
+    const contenedor = campo.closest('.input-group') || campo.closest('.col-md-4') || campo.parentElement;
 
-            const msg = document.createElement('div');
-            msg.className   = 'error-rv';
-            msg.dataset.campo = campo.id;
-            msg.innerHTML   = `<i class="bi bi-exclamation-circle-fill me-1"></i>${mensaje}`;
-            contenedor.insertAdjacentElement('afterend', msg);
+    // Eliminar mensaje anterior si existía
+    const anterior = contenedor.parentElement
+      ? contenedor.parentElement.querySelector(`.error-rv[data-campo="${campo.id}"]`)
+      : null;
+    if (anterior) anterior.remove();
 
-            // Animación shake
-            campo.classList.add('shake-rv');
-            campo.addEventListener('animationend', () => campo.classList.remove('shake-rv'), { once: true });
-        }
+    const msg = document.createElement('div');
+    msg.className   = 'error-rv';
+    msg.dataset.campo = campo.id;
+    msg.innerHTML   = `<i class="bi bi-exclamation-circle-fill me-1"></i>${mensaje}`;
+    contenedor.insertAdjacentElement('afterend', msg);
 
-        // Limpia el error de un campo concreto
-        function limpiarError(campo) {
-            if (!campo) return;
-            campo.classList.remove('is-invalid-rv');
-            const msg = formulario.querySelector(`.error-rv[data-campo="${campo.id}"]`);
-            if (msg) msg.remove();
-        }
+    // Animación shake
+    campo.classList.add('shake-rv');
+    campo.addEventListener('animationend', () => campo.classList.remove('shake-rv'), { once: true });
+  }
 
-        // Limpia todos los errores
-        function limpiarTodos() {
-            formulario.querySelectorAll('.is-invalid-rv').forEach(el => el.classList.remove('is-invalid-rv'));
-            formulario.querySelectorAll('.error-rv').forEach(el => el.remove());
-        }
+  // Limpia el error de un campo concreto
+  function limpiarError(campo) {
+    if (!campo) return;
+    campo.classList.remove('is-invalid-rv');
+    const msg = formulario.querySelector(`.error-rv[data-campo="${campo.id}"]`);
+    if (msg) msg.remove();
+  }
 
-        // Limpiar error al modificar cada campo
-        formulario.querySelectorAll('input, select, textarea').forEach(campo => {
-            campo.addEventListener('input',  () => limpiarError(campo));
-            campo.addEventListener('change', () => limpiarError(campo));
-        });
+  // Limpia todos los errores
+  function limpiarTodos() {
+    formulario.querySelectorAll('.is-invalid-rv').forEach(el => el.classList.remove('is-invalid-rv'));
+    formulario.querySelectorAll('.error-rv').forEach(el => el.remove());
+  }
 
-        // Validación al enviar
-        formulario.addEventListener('submit', function (event) {
+  // Limpiar error al modificar cada campo
+  formulario.querySelectorAll('input, select, textarea').forEach(campo => {
+    campo.addEventListener('input',  () => limpiarError(campo));
+    campo.addEventListener('change', () => limpiarError(campo));
+  });
 
-            limpiarTodos();
+  // Validación al enviar
+  formulario.addEventListener('submit', function (event) {
 
-            const nombre    = document.getElementById('nombre');
-            const apellido1 = document.getElementById('apellido1');
-            const email     = document.getElementById('email');
-            const fechaNac  = document.getElementById('fecha_nac');
-            const telefono  = document.getElementById('telefono');
-            const localidad = document.getElementById('id_localidad');
+    limpiarTodos();
 
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            const tlfRegex   = /^[0-9]{9,11}$/;
+    const nombre    = document.getElementById('nombre');
+    const apellido1 = document.getElementById('apellido1');
+    const email     = document.getElementById('email');
+    const fechaNac  = document.getElementById('fecha_nac');
+    const telefono  = document.getElementById('telefono');
+    const localidad = document.getElementById('id_localidad');
 
-            let hayErrores            = false;
-            let primerCampoConError   = null;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const tlfRegex   = /^[0-9]{9,11}$/;
 
-            function marcar(campo, msg) {
-            mostrarError(campo, msg);
-            hayErrores = true;
-            if (!primerCampoConError) primerCampoConError = campo;
-            }
+    let hayErrores            = false;
+    let primerCampoConError   = null;
 
-            if (!nombre || nombre.value.trim().length < 2)
-            marcar(nombre, "El nombre es obligatorio (mínimo 2 caracteres).");
-
-            if (!apellido1 || apellido1.value.trim().length < 2)
-            marcar(apellido1, "El primer apellido es obligatorio.");
-
-            if (!email || !emailRegex.test(email.value.trim()))
-            marcar(email, "Introduce un correo electrónico válido.");
-
-            if (!fechaNac || fechaNac.value === "")
-            marcar(fechaNac, "La fecha de nacimiento es obligatoria.");
-
-            if (telefono && telefono.value.trim() !== "" && !tlfRegex.test(telefono.value.replace(/\s/g, "")))
-            marcar(telefono, "El teléfono debe tener entre 9 y 11 dígitos.");
-
-            if (!localidad || localidad.value === "")
-            marcar(localidad, "Selecciona tu provincia.");
-
-            if (hayErrores) {
-            event.preventDefault();
-            if (primerCampoConError) {
-                primerCampoConError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                primerCampoConError.focus();
-            }
-            }
-            // Si no hay errores el formulario se envía al servidor PHP normalmente
-        });
+    function marcar(campo, msg) {
+      mostrarError(campo, msg);
+      hayErrores = true;
+      if (!primerCampoConError) primerCampoConError = campo;
     }
+
+    if (!nombre || nombre.value.trim().length < 2)
+      marcar(nombre, "El nombre es obligatorio (mínimo 2 caracteres).");
+
+    if (!apellido1 || apellido1.value.trim().length < 2)
+      marcar(apellido1, "El primer apellido es obligatorio.");
+
+    if (!email || !emailRegex.test(email.value.trim()))
+      marcar(email, "Introduce un correo electrónico válido.");
+
+    if (!fechaNac || fechaNac.value === "")
+      marcar(fechaNac, "La fecha de nacimiento es obligatoria.");
+
+    if (telefono && telefono.value.trim() !== "" && !tlfRegex.test(telefono.value.replace(/\s/g, "")))
+      marcar(telefono, "El teléfono debe tener entre 9 y 11 dígitos.");
+
+    if (!localidad || localidad.value === "")
+      marcar(localidad, "Selecciona tu provincia.");
+
+    if (hayErrores) {
+      event.preventDefault();
+      if (primerCampoConError) {
+        primerCampoConError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        primerCampoConError.focus();
+      }
+    }
+    // Si no hay errores el formulario se envía al servidor PHP normalmente
+  });
+
 };
 
 // 6. BUSCADOR DE INSCRIPCIÓN POR CÓDIGO RV
@@ -398,25 +399,56 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-// 8. PANEL ADMIN — tooltips y modal de confirmación de borrado
+// 8. PANEL ADMIN — tooltips y modales de confirmación
 document.addEventListener('DOMContentLoaded', function () {
 
-    // Tooltips (solo en páginas que los usen)
+    // Tooltips
     document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(el) {
         new bootstrap.Tooltip(el);
     });
 
-    // Modal de confirmación de borrado de actividad
+    // Modal eliminar actividad
     document.querySelectorAll('.btn-eliminar').forEach(function(btn) {
         btn.addEventListener('click', function() {
-            var nombre = this.dataset.nombre;
-            var id     = this.dataset.id;
             var modalNombre = document.getElementById('modal-nombre-act');
             var modalInput  = document.getElementById('input-id-eliminar');
             var modalEl     = document.getElementById('modalEliminar');
-            if (modalNombre) modalNombre.textContent = nombre;
-            if (modalInput)  modalInput.value        = id;
+            if (modalNombre) modalNombre.textContent = this.dataset.nombre;
+            if (modalInput)  modalInput.value        = this.dataset.id;
             if (modalEl)     new bootstrap.Modal(modalEl).show();
+        });
+    });
+
+    // Nuevo organizador — resetear formulario al abrir
+    var btnNuevoOrg = document.getElementById('btn-nuevo-org');
+    if (btnNuevoOrg) {
+        btnNuevoOrg.addEventListener('click', function () {
+            var form = document.getElementById('form-organizador');
+            form.action = form.action.replace('editarOrganizador', 'crearOrganizador');
+            document.getElementById('org-id').value     = '';
+            document.getElementById('org-nombre').value = '';
+            document.getElementById('org-tipo').value   = 'empresa';
+            document.getElementById('org-btn-txt').textContent = 'Crear';
+        });
+    }
+
+    // Editar organizador — rellenar modal con datos del botón
+    document.querySelectorAll('.btn-editar-org').forEach(function(btn) {
+        btn.addEventListener('click', function () {
+            var form = document.getElementById('form-organizador');
+            form.action = form.action.replace('crearOrganizador', 'editarOrganizador');
+            document.getElementById('org-id').value     = this.dataset.id;
+            document.getElementById('org-nombre').value = this.dataset.nombre;
+            document.getElementById('org-tipo').value   = this.dataset.tipo;
+            document.getElementById('org-btn-txt').textContent = 'Guardar cambios';
+        });
+    });
+
+    // Eliminar organizador — rellenar modal con nombre e id
+    document.querySelectorAll('.btn-eliminar-org').forEach(function(btn) {
+        btn.addEventListener('click', function () {
+            document.getElementById('modal-nombre-org').textContent  = this.dataset.nombre;
+            document.getElementById('input-id-eliminar-org').value   = this.dataset.id;
         });
     });
 });
@@ -530,47 +562,3 @@ document.addEventListener('DOMContentLoaded', function () {
         bloque.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
 }());
-
-// 10. PANEL ADMIN — Gestión de Organizadores
-// Solo lo imprescindible para organizadores
-document.addEventListener('DOMContentLoaded', function () {
-
-    const base = "<?= $base ?>";
-
-    // EDITAR ORGANIZADOR
-    document.querySelectorAll('.btn-editar-org').forEach(btn => {
-        btn.addEventListener('click', function () {
-
-            const form = document.getElementById('form-organizador');
-            
-            // Usamos la misma base que ya tienes en el HTML
-            form.action = '<?= $base ?>index.php?controller=Admin&action=editarOrganizador';
-
-            // Cambiar título y texto del botón
-            const titulo = document.getElementById('modalOrgTitulo');
-            if (titulo) {
-                titulo.querySelector('i').className = 'bi bi-pencil-square me-2 text-verde-rv';
-                titulo.lastChild.textContent = ' Editar organizador';
-            }
-
-            document.getElementById('org-btn-txt').textContent = 'Guardar cambios';
-
-            // Rellenar datos
-            document.getElementById('org-id').value = this.dataset.id;
-            document.getElementById('org-nombre').value = this.dataset.nombre;
-            document.getElementById('org-tipo').value = this.dataset.tipo;
-
-            new bootstrap.Modal(document.getElementById('modalOrganizador')).show();
-        });
-    });
-
-    // Eliminar Organizador
-    document.querySelectorAll('.btn-eliminar-org').forEach(btn => {
-        btn.addEventListener('click', function () {
-            document.getElementById('modal-nombre-org').textContent = this.dataset.nombre;
-            document.getElementById('input-id-eliminar-org').value = this.dataset.id;
-            
-            new bootstrap.Modal(document.getElementById('modalEliminarOrg')).show();
-        });
-    });
-});

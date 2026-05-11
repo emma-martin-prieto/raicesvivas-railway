@@ -1,8 +1,7 @@
 <?php
 use RaicesVivas\Config\Parameters;
-$base          = Parameters::$BASE_URL;
-$actividades   = $actividades   ?? [];
-$organizadores = $organizadores ?? [];
+$base = Parameters::$BASE_URL;
+$actividades = $actividades ?? [];
 
 $msg   = $_SESSION['admin_msg']   ?? null;
 $error = $_SESSION['admin_error'] ?? null;
@@ -48,7 +47,7 @@ function badgeTipoAdmin(string $tipo): string {
     </div>
     <div class="d-flex align-items-center gap-3">
         <span class="opacity-75 small"><i class="bi bi-person-fill me-1"></i>Modo administrador activo</span>
-        <a href="<?= $base ?>index.php?controller=Admin&action=logout"
+        <a href="<?= $base ?>Admin/logout"
            class="btn btn-sm btn-outline-light rounded-pill px-3">
             <i class="bi bi-box-arrow-right me-1"></i>Salir
         </a>
@@ -67,7 +66,7 @@ function badgeTipoAdmin(string $tipo): string {
                 <?= count($actividades ?? []) ?> experiencias en total
             </p>
         </div>
-        <a href="<?= $base ?>index.php?controller=Admin&action=showCrear"
+        <a href="<?= $base ?>Admin/showCrear"
            class="btn btn-naranja-rv rounded-pill px-4">
             <i class="bi bi-plus-circle-fill me-2"></i>Nueva experiencia
         </a>
@@ -120,7 +119,7 @@ function badgeTipoAdmin(string $tipo): string {
                             <td class="text-center pe-4">
                                 <div class="d-flex gap-2 justify-content-center">
                                     <!-- Editar -->
-                                    <a href="<?= $base ?>index.php?controller=Admin&action=showEditar&id=<?= $act->id ?>"
+                                    <a href="<?= $base ?>Admin/showEditar&id=<?= $act->id ?>"
                                        class="btn btn-outline-secondary btn-accion"
                                        data-bs-toggle="tooltip" title="Editar">
                                         <i class="bi bi-pencil-fill"></i>
@@ -201,14 +200,18 @@ function badgeTipoAdmin(string $tipo): string {
                                             data-id="<?= $org->id ?>"
                                             data-nombre="<?= htmlspecialchars($org->nombre) ?>"
                                             data-tipo="<?= $org->tipo ?>"
-                                            data-bs-toggle="tooltip" title="Editar">
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalOrganizador"
+                                            title="Editar">
                                         <i class="bi bi-pencil-fill"></i>
                                     </button>
                                     <button type="button"
                                             class="btn btn-outline-danger btn-accion btn-eliminar-org"
                                             data-id="<?= $org->id ?>"
                                             data-nombre="<?= htmlspecialchars($org->nombre) ?>"
-                                            data-bs-toggle="tooltip" title="Eliminar">
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalEliminarOrg"
+                                            title="Eliminar">
                                         <i class="bi bi-trash3-fill"></i>
                                     </button>
                                 </div>
@@ -240,7 +243,8 @@ function badgeTipoAdmin(string $tipo): string {
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form method="POST" action="<?= $base ?>index.php?controller=Admin&action=crearOrganizador" id="form-organizador">                <input type="hidden" name="id" id="org-id">
+            <form method="POST" action="<?= $base ?>index.php?controller=Admin&action=crearOrganizador" id="form-organizador">
+                <input type="hidden" name="id" id="org-id">
                 <div class="modal-body px-4">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Nombre</label>
@@ -289,7 +293,8 @@ function badgeTipoAdmin(string $tipo): string {
             <div class="modal-footer border-0 pt-3">
                 <button type="button" class="btn btn-outline-secondary rounded-pill px-4"
                         data-bs-dismiss="modal">Cancelar</button>
-                <form method="POST" action="<?= $base ?>index.php?controller=Admin&action=eliminarOrganizador" id="form-eliminar-org">                    <input type="hidden" name="id" id="input-id-eliminar-org">
+                <form method="POST" action="<?= $base ?>Admin/eliminarOrganizador" id="form-eliminar-org">
+                    <input type="hidden" name="id" id="input-id-eliminar-org">
                     <button type="submit" class="btn btn-danger rounded-pill px-4">
                         <i class="bi bi-trash3-fill me-1"></i>Sí, eliminar
                     </button>
@@ -320,7 +325,7 @@ function badgeTipoAdmin(string $tipo): string {
                 <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">
                     Cancelar
                 </button>
-                <form method="POST" action="<?= $base ?>index.php?controller=Admin&action=eliminar" id="form-eliminar">
+                <form method="POST" action="<?= $base ?>Admin/eliminar" id="form-eliminar">
                     <input type="hidden" name="id" id="input-id-eliminar">
                     <button type="submit" class="btn btn-danger rounded-pill px-4">
                         <i class="bi bi-trash3-fill me-1"></i>Sí, eliminar
@@ -333,5 +338,48 @@ function badgeTipoAdmin(string $tipo): string {
 
 <script src="<?= $base ?>assets/js/bootstrap.bundle.min.js"></script>
 <script src="<?= $base ?>assets/javascript.js"></script>
+<script>
+// ── Organizadores
+const modalOrg       = document.getElementById('modalOrganizador');
+const formOrg        = document.getElementById('form-organizador');
+const orgId          = document.getElementById('org-id');
+const orgNombre      = document.getElementById('org-nombre');
+const orgTipo        = document.getElementById('org-tipo');
+const orgTitulo      = document.getElementById('modalOrgTitulo');
+const orgBtnTxt      = document.getElementById('org-btn-txt');
+const base           = '<?= $base ?>';
+
+// Nuevo organizador — limpiar el modal
+document.getElementById('btn-nuevo-org').addEventListener('click', function () {
+    orgTitulo.innerHTML = '<i class="bi bi-building me-2 text-verde-rv"></i>Nuevo organizador';
+    orgBtnTxt.textContent = 'Crear';
+    orgId.value     = '';
+    orgNombre.value = '';
+    orgTipo.value   = 'empresa';
+    formOrg.action  = base + 'Admin/crearOrganizador';
+});
+
+// Editar organizador — rellenar con los datos del botón
+document.querySelectorAll('.btn-editar-org').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+        orgTitulo.innerHTML = '<i class="bi bi-pencil-fill me-2 text-verde-rv"></i>Editar organizador';
+        orgBtnTxt.textContent = 'Guardar';
+        orgId.value     = this.dataset.id;
+        orgNombre.value = this.dataset.nombre;
+        orgTipo.value   = this.dataset.tipo;
+        formOrg.action  = base + 'Admin/editarOrganizador';
+        new bootstrap.Modal(modalOrg).show();
+    });
+});
+
+// Eliminar organizador
+document.querySelectorAll('.btn-eliminar-org').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+        document.getElementById('modal-nombre-org').textContent = this.dataset.nombre;
+        document.getElementById('input-id-eliminar-org').value  = this.dataset.id;
+        new bootstrap.Modal(document.getElementById('modalEliminarOrg')).show();
+    });
+});
+</script>
 </body>
 </html>
