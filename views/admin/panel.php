@@ -47,7 +47,7 @@ function badgeTipoAdmin(string $tipo): string {
     </div>
     <div class="d-flex align-items-center gap-3">
         <span class="opacity-75 small"><i class="bi bi-person-fill me-1"></i>Modo administrador activo</span>
-        <a href="<?= $base ?>Admin/logout"
+        <a href="<?= $base ?>index.php?controller=Admin&action=logout"
            class="btn btn-sm btn-outline-light rounded-pill px-3">
             <i class="bi bi-box-arrow-right me-1"></i>Salir
         </a>
@@ -66,7 +66,7 @@ function badgeTipoAdmin(string $tipo): string {
                 <?= count($actividades ?? []) ?> experiencias en total
             </p>
         </div>
-        <a href="<?= $base ?>Admin/showCrear"
+        <a href="<?= $base ?>index.php?controller=Admin&action=showCrear"
            class="btn btn-naranja-rv rounded-pill px-4">
             <i class="bi bi-plus-circle-fill me-2"></i>Nueva experiencia
         </a>
@@ -119,7 +119,7 @@ function badgeTipoAdmin(string $tipo): string {
                             <td class="text-center pe-4">
                                 <div class="d-flex gap-2 justify-content-center">
                                     <!-- Editar -->
-                                    <a href="<?= $base ?>Admin/showEditar&id=<?= $act->id ?>"
+                                    <a href="<?= $base ?>index.php?controller=Admin&action=showEditar&id=<?= $act->id ?>"
                                        class="btn btn-outline-secondary btn-accion"
                                        data-bs-toggle="tooltip" title="Editar">
                                         <i class="bi bi-pencil-fill"></i>
@@ -325,7 +325,7 @@ function badgeTipoAdmin(string $tipo): string {
                 <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">
                     Cancelar
                 </button>
-                <form method="POST" action="<?= $base ?>Admin/eliminar" id="form-eliminar">
+                <form method="POST" action="<?= $base ?>index.php?controller=Admin&action=eliminar" id="form-eliminar">
                     <input type="hidden" name="id" id="input-id-eliminar">
                     <button type="submit" class="btn btn-danger rounded-pill px-4">
                         <i class="bi bi-trash3-fill me-1"></i>Sí, eliminar
