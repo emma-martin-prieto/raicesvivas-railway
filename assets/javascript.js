@@ -423,8 +423,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var btnNuevoOrg = document.getElementById('btn-nuevo-org');
     if (btnNuevoOrg) {
         btnNuevoOrg.addEventListener('click', function () {
-            var form = document.getElementById('form-organizador');
-            form.action = form.action.replace('editarOrganizador', 'crearOrganizador');
+            var form    = document.getElementById('form-organizador');
+            var baseUrl = form.getAttribute('data-base');
+            form.action = baseUrl + 'index.php?controller=Admin&action=crearOrganizador';
             document.getElementById('org-id').value     = '';
             document.getElementById('org-nombre').value = '';
             document.getElementById('org-tipo').value   = 'empresa';
@@ -435,8 +436,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Editar organizador — rellenar modal con datos del botón
     document.querySelectorAll('.btn-editar-org').forEach(function(btn) {
         btn.addEventListener('click', function () {
-            var form = document.getElementById('form-organizador');
-            form.action = form.action.replace('crearOrganizador', 'editarOrganizador');
+            var form    = document.getElementById('form-organizador');
+            var baseUrl = form.getAttribute('data-base');
+            form.action = baseUrl + 'index.php?controller=Admin&action=editarOrganizador';
             document.getElementById('org-id').value     = this.dataset.id;
             document.getElementById('org-nombre').value = this.dataset.nombre;
             document.getElementById('org-tipo').value   = this.dataset.tipo;

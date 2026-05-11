@@ -243,7 +243,7 @@ function badgeTipoAdmin(string $tipo): string {
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form method="POST" action="<?= $base ?>index.php?controller=Admin&action=crearOrganizador" id="form-organizador">
+            <form method="POST" action="<?= $base ?>index.php?controller=Admin&action=crearOrganizador" id="form-organizador" data-base="<?= $base ?>">
                 <input type="hidden" name="id" id="org-id">
                 <div class="modal-body px-4">
                     <div class="mb-3">
@@ -293,7 +293,7 @@ function badgeTipoAdmin(string $tipo): string {
             <div class="modal-footer border-0 pt-3">
                 <button type="button" class="btn btn-outline-secondary rounded-pill px-4"
                         data-bs-dismiss="modal">Cancelar</button>
-                <form method="POST" action="<?= $base ?>Admin/eliminarOrganizador" id="form-eliminar-org">
+                <form method="POST" action="<?= $base ?>index.php?controller=Admin&action=eliminarOrganizador" id="form-eliminar-org">
                     <input type="hidden" name="id" id="input-id-eliminar-org">
                     <button type="submit" class="btn btn-danger rounded-pill px-4">
                         <i class="bi bi-trash3-fill me-1"></i>Sí, eliminar
@@ -338,48 +338,5 @@ function badgeTipoAdmin(string $tipo): string {
 
 <script src="<?= $base ?>assets/js/bootstrap.bundle.min.js"></script>
 <script src="<?= $base ?>assets/javascript.js"></script>
-<script>
-// ── Organizadores
-const modalOrg       = document.getElementById('modalOrganizador');
-const formOrg        = document.getElementById('form-organizador');
-const orgId          = document.getElementById('org-id');
-const orgNombre      = document.getElementById('org-nombre');
-const orgTipo        = document.getElementById('org-tipo');
-const orgTitulo      = document.getElementById('modalOrgTitulo');
-const orgBtnTxt      = document.getElementById('org-btn-txt');
-const base           = '<?= $base ?>';
-
-// Nuevo organizador — limpiar el modal
-document.getElementById('btn-nuevo-org').addEventListener('click', function () {
-    orgTitulo.innerHTML = '<i class="bi bi-building me-2 text-verde-rv"></i>Nuevo organizador';
-    orgBtnTxt.textContent = 'Crear';
-    orgId.value     = '';
-    orgNombre.value = '';
-    orgTipo.value   = 'empresa';
-    formOrg.action  = base + 'Admin/crearOrganizador';
-});
-
-// Editar organizador — rellenar con los datos del botón
-document.querySelectorAll('.btn-editar-org').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-        orgTitulo.innerHTML = '<i class="bi bi-pencil-fill me-2 text-verde-rv"></i>Editar organizador';
-        orgBtnTxt.textContent = 'Guardar';
-        orgId.value     = this.dataset.id;
-        orgNombre.value = this.dataset.nombre;
-        orgTipo.value   = this.dataset.tipo;
-        formOrg.action  = base + 'Admin/editarOrganizador';
-        new bootstrap.Modal(modalOrg).show();
-    });
-});
-
-// Eliminar organizador
-document.querySelectorAll('.btn-eliminar-org').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-        document.getElementById('modal-nombre-org').textContent = this.dataset.nombre;
-        document.getElementById('input-id-eliminar-org').value  = this.dataset.id;
-        new bootstrap.Modal(document.getElementById('modalEliminarOrg')).show();
-    });
-});
-</script>
 </body>
 </html>
