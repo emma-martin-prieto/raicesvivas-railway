@@ -79,7 +79,7 @@ $precioTotal = array_sum(array_map(fn($s) => $s->precio, $sesionesCarrito));
                                         <?php endif; ?>
                                         <span class="text-verde-rv fw-bold small"><?= number_format($ses->precio, 2) ?> €</span>
                                     </div>
-                                    <a href="<?= $base ?>Carrito/eliminar?id=<?= $ses->id_sesion ?>"
+                                    <a href="<?= $base ?>index.php?controller=Carrito&action=eliminar&id=<?= $ses->id_sesion ?>"
                                        class="text-danger ms-2" title="Eliminar">
                                         <i class="bi bi-x-circle"></i>
                                     </a>
